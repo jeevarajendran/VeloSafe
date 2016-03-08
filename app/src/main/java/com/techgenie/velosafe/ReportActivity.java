@@ -2,16 +2,26 @@ package com.techgenie.velosafe;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -48,7 +58,7 @@ public class ReportActivity extends AppCompatActivity {
         bikeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                whichPopIntent.putExtra("whichPopup","bike");
+                whichPopIntent.putExtra("whichPopup", "bike");
                 startActivity(new Intent(ReportActivity.this, BikeDetailsPopupActivity.class));
 
             }
@@ -113,19 +123,103 @@ public class ReportActivity extends AppCompatActivity {
         TextView textview = (TextView) findViewById(R.id.lost_time_time);
         textview.setText("Lost Time: " + sdf.format(myCalendar.getTime()));
     }
-
-    public void PickLostLocationonClick(View view){
-        System.out.println("select the location of lost.");
-    }
-
-    private void updatePlaceLabel(){
-        TextView textview = (TextView) findViewById(R.id.lost_location);
-        textview.setText("Lost Location: " + "To be done");
-    }
-
    /* public void ReportSubmitButtononClick(View view){
         Intent intent = new Intent(this, ReportMapsActivity.class);
         startActivity(intent);
     }*/
 
+    public void PickLostLocationonClick(View view) {
+        System.out.println("select the location of lost.");
+    }
+
+    private void updatePlaceLabel() {
+        TextView textview = (TextView) findViewById(R.id.lost_location);
+        textview.setText("Lost Location: " + "To be done");
+    }
+
+    private int getLostBin(){
+        return 1;
+    }
+
+    public void ReportSubmitButtononClick(View view) {
+        System.out.println("let's report!");
+        Context context = this;
+        DBHandler myDB = new DBHandler(context);
+        Cursor userDetailsCursor = myDB.getUserData();
+        Cursor bikeDetailsCursor = myDB.getBikeData();
+        bikeDetailsCursor.moveToFirst();
+        userDetailsCursor.moveToFirst();
+        final String first_name = userDetailsCursor.getString(1);
+        final String last_name = userDetailsCursor.getString(2);
+        final String contact_number = userDetailsCursor.getString(5);
+        final String area = userDetailsCursor.getString(6);
+        final String bike_make = bikeDetailsCursor.getString(1);
+        final String bike_model = bikeDetailsCursor.getString(2);
+        final String bike_frame = bikeDetailsCursor.getString(3);
+        final String bike_color = bikeDetailsCursor.getString(4);
+        final int lost_bin_number = getLostBin();
+        myDB.close();
+
+        new Thread(new Runnable() {
+            public void run() {
+                try {
+
+                    System.out.println("starts here");
+//                    URL url = new URL("http://192.168.1.14:8080/velotest/MainHandler");
+                    URL url = new URL("http://10.6.45.178:8080/velotest/MainHandler");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    Log.d("Connected to URL ****", connection.toString());
+                    TextView lost_location = (TextView) findViewById(R.id.lost_location);
+                    TextView lost_time_date = (TextView) findViewById(R.id.lost_time_date);
+                    TextView lost_time_time = (TextView) findViewById(R.id.lost_time_time);
+
+
+
+
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("lost_location", lost_location.getText().toString());
+                    jsonObj.put("lost_bin_number", lost_bin_number);
+                    jsonObj.put("lost_time_date", lost_time_date.getText().toString());
+                    jsonObj.put("lost_time_time", lost_time_time.getText().toString());
+                    jsonObj.put("first_name", first_name);
+                    jsonObj.put("last_name", last_name);
+                    jsonObj.put("contact_number", contact_number);
+                    jsonObj.put("area", area);
+                    jsonObj.put("bike_make", bike_make);
+                    jsonObj.put("bike_model", bike_model);
+                    jsonObj.put("bike_frame", bike_frame);
+                    jsonObj.put("bike_color", bike_color);
+                    System.out.println(jsonObj.toString());
+
+                    connection.setDoOutput(true);
+                    DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                    out.writeBytes("page=report&report_details=" + jsonObj.toString());
+
+                    System.out.println("should have worked");
+                    out.close();
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+                    StringBuilder sb=new StringBuilder();
+                    String returnString;
+
+                    // inData.read
+                    while ((returnString = in.readLine()) != null)
+                    {
+                        sb.append(returnString);
+                    }
+                    in.close();
+
+                    String jsonString = sb.toString();
+
+                    System.out.println("JSON String retrieved from server : " + jsonString);
+
+
+                } catch (Exception e) {
+                    Log.d("Exception", e.toString());
+                }
+
+            }
+
+        }).start();
+    }
 }
