@@ -9,11 +9,73 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.techgenie.velosafe.MainActivity"
-    tools:showIn="@layout/activity_main">
+    tools:context="com.example.jeev.velo.MainActivity"
+    tools:showIn="@layout/activity_main"
+    android:background="@drawable/bike_back2"
+    android:contextClickable="true">
+
+    <RelativeLayout android:layout_height="wrap_content" android:layout_width="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="@string/logo_text"
+        android:id="@+id/logotextid"
+        android:fontFamily="Arial"
+        android:textSize="60dp"
+        android:textStyle="bold"
+        android:textColor="@color/logocolor"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REPORT"
+        android:layout_above="@+id/loginButton"
+        android:textSize="30sp"
+        android:onClick="reportButtonOnClick"
+        android:layout_alignRight="@+id/loginButton"
+        android:layout_alignEnd="@+id/loginButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/login"
+        android:id="@+id/loginButton"
+        android:onClick="loginButtonOnClick"
+        android:layout_above="@+id/registerButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:focusable="true"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/register"
+        android:id="@+id/registerButton"
+        android:onClick="registerButtonOnClick"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="53dp" />
+
+
+    <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/welcome_bike"
+        android:id="@+id/welcome_bike_image"
+        android:layout_marginBottom="299dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />-->
+
 </RelativeLayout>

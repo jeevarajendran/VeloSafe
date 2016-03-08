@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fitsSystemWindows="true"
+    android:background="@drawable/login_back1"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="56dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+
+        >
+
+        <ImageView android:src="@drawable/welcome_bike"
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_marginBottom="24dp"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Report"
+            android:textSize="30sp"
+            android:id="@+id/ReportTitle"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Lost Details"
+            android:textSize="20sp"
+            android:id="@+id/ReportSubTitle1"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/select_lost_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:onClick="PickLostLocationonClick"
+                android:text="Location"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/lost_location"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/select_lost_location"
+                android:layout_toEndOf="@+id/select_lost_location" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/select_lost_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:onClick="PickLostDateonClick"
+                android:text="Date"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/lost_time_date"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/select_lost_date"
+                android:layout_toEndOf="@+id/select_lost_date" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/select_lost_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                android:onClick="PickLostTimeonClick"
+                android:text="Time"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:id="@+id/lost_time_time"
+                android:layout_marginLeft="21dp"
+                android:layout_marginStart="21dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/select_lost_time"
+                android:layout_toEndOf="@+id/select_lost_time" />
+        </RelativeLayout>
+
+
+        <LinearLayout android:layout_height="match_parent" android:layout_width="match_parent">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal Details"
+            android:id="@+id/personalDeatilsButton" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Bike Details"
+            android:id="@+id/BikeDeatilsButton" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/report_submit_button"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:padding="12dp"
+            android:text="Confirm and Report"/>
+
+
+    </LinearLayout>
+</ScrollView>
