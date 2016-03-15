@@ -51,7 +51,10 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    public void HeatMapButtonOnClick(View view){
+        Intent intent = new Intent(this,HeatMap.class);
+        startActivity(intent);
+    }
     public void loginButtonOnClick(View view) {
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
