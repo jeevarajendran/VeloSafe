@@ -157,7 +157,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     String responseString = "";
                     //URL url = new URL("https://pacific-scrubland-42954.herokuapp.com/MainHandler");
                     //URL url = new URL("http://10.6.56.150:8070/velosafe/Velosafe");
-                    URL url = new URL("http://192.168.194.1:8080/MainHandler/MainHandler");
+                    URL url = new URL("http://10.6.45.178:8080/velotest/MainHandler");
                     HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                     Log.d("Connected to URL ****", connection.toString());
                     String inputEmail = inputIntent.getExtras().getString("inputEmail","");
