@@ -3,6 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="logo_text">Velo Safe</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_registration">Registration</string>
     <string name="title_activity_personal_details">PersonalDetailsActivity</string>
     <string name="title_activity_bike_details">BikeDetailsActivity</string>
     <string name="title_activity_image_test">ImageTestActivity</string>
@@ -11,4 +12,5 @@
     <string name="title_activity_bike_details_popup">Bike Details</string>
     <string name="title_activity_edit_personal_pop">Edit Personal Details</string>
     <string name="title_activity_edit_bike_pop">Edit Bike Details</string>
+    <string name="title_register_user">Register User</string>
 </resources>

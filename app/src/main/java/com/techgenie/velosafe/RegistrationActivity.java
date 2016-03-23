@@ -43,7 +43,7 @@ public class RegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        continueRegistration.setEnabled(false);
+        //continueRegistration.setEnabled(false);
 
         Intent intent = new Intent(getApplicationContext(), PersonalDetailsActivity.class);
         intent.putExtra("inputEmail",inputEmail.getText().toString());
@@ -65,11 +65,11 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+   // @Override
+   // public void onBackPressed() {
         // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
+       // moveTaskToBack(true);
+   // }
 
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();

@@ -33,41 +33,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-
-
-import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-
 public class BikeDetailsActivity extends AppCompatActivity {
 
     private static final String TAG = "BikeDetailsActivity";
@@ -157,7 +122,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     String responseString = "";
                     //URL url = new URL("https://pacific-scrubland-42954.herokuapp.com/MainHandler");
                     //URL url = new URL("http://10.6.56.150:8070/velosafe/Velosafe");
-                    URL url = new URL("http://10.6.45.178:8080/velotest/MainHandler");
+                    URL url = new URL("http://192.168.56.1:8080/MainHandler/ServerHandler/MainHandler");
                     HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                     Log.d("Connected to URL ****", connection.toString());
                     String inputEmail = inputIntent.getExtras().getString("inputEmail","");
@@ -277,11 +242,11 @@ public class BikeDetailsActivity extends AppCompatActivity {
         }).start();
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
-    }
+    }*/
 
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();

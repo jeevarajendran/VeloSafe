@@ -51,7 +51,8 @@
                 android:value="com.techgenie.velosafe.MainActivity" />
 
         </activity>
-        <activity android:name=".RegistrationActivity" />
+        <activity android:name=".RegistrationActivity"
+            android:label="@string/title_register_user"/>
         <activity
             android:name=".PersonalDetailsActivity"
             android:label="@string/title_activity_personal_details"

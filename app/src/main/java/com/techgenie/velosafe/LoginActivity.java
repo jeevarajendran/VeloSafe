@@ -239,11 +239,11 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
-    }
+    }*/
 
     public void onLoginSuccess() {
         loginButton.setEnabled(true);
