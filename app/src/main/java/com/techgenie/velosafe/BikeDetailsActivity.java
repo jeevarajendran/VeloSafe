@@ -116,6 +116,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
         }
 
         new Thread(new Runnable() {
+
             public void run() {
                 try{
                     String returnString="";
@@ -167,7 +168,9 @@ public class BikeDetailsActivity extends AppCompatActivity {
 
                     DataOutputStream out = new DataOutputStream(connection.getOutputStream ());
                     out.writeBytes("page=registration&reg_details=" + jsonObj.toString());
+                    System.out.println("page=registration&reg_details=" + jsonObj.toString());
                     out.close();
+                    System.out.println("1\n");
                     BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                     StringBuilder sb=new StringBuilder();
@@ -175,6 +178,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     // inData.read
                     while ((returnString = in.readLine()) != null)
                     {
+                        System.out.println(returnString);
                         sb.append(returnString);
                     }
                     in.close();
@@ -182,8 +186,18 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     String jsonString = sb.toString();
 
                     System.out.println("JSON String retrieved from server : " + jsonString);
+                    if (jsonString.equals("Already registered")){
+                        System.out.println("it is registered");
+                        BikeDetailsActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getBaseContext(), "The email address has already been registered", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        Intent intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                        startActivity(intent);
 
-                    //JSONObject jsonObjResponse = new JSONObject(jsonString);
+                    }
+
                     JSONArray jsonArrayResponse = new JSONArray(jsonString);
                     System.out.println("JSON Array retrieved from server : " + jsonArrayResponse);
 
@@ -242,7 +256,15 @@ public class BikeDetailsActivity extends AppCompatActivity {
         }).start();
     }
 
+<<<<<<< HEAD
     /*@Override
+=======
+    public void emailAlreadyRegistered(){
+        Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+>>>>>>> 0d8dc36e9a27dd0279fbaf066c0a267ec89fd76c
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
