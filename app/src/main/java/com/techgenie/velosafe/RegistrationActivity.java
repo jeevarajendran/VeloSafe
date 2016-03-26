@@ -65,11 +65,11 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-   // @Override
-   // public void onBackPressed() {
+    /*@Override
+    public void onBackPressed() {
         // disable going back to the MainActivity
-       // moveTaskToBack(true);
-   // }
+        moveTaskToBack(true);
+    }*/
 
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();

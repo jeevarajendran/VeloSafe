@@ -13,9 +13,9 @@ import java.util.HashMap;
 public class DBHandler extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "VeloSafe.db";
-    public static final int DATABASE_VERSION = 6;
+    public static final int DATABASE_VERSION = 7;
     public static final String CREATE_REGIONBIN_QUERY = "create table "+RegionContract.RegionBinInfo.TABLE_NAME+"(id integer primary key, "+RegionContract.RegionBinInfo.REGION_NAME+" TEXT,"+
-            RegionContract.RegionBinInfo.REGION_CORD_X+" DOUBLE,"+RegionContract.RegionBinInfo.REGION_CORD_Y+" DOUBLE,"+RegionContract.RegionBinInfo.REGION_WEIGHT+" INTEGER);";
+            RegionContract.RegionBinInfo.REGION_CORD_X+" DOUBLE,"+RegionContract.RegionBinInfo.REGION_CORD_Y+" DOUBLE,"+RegionContract.RegionBinInfo.REGION_WEIGHT+" INTEGER,"+RegionContract.RegionBinInfo.REGION_ISSAFE+" TEXT);";
     public static final String CREATE_USERDETAILS_QUERY = "create table "+UserDetailsContract.UserDetailsInfo.TABLE_NAME+"(id integer primary key, "+ UserDetailsContract.UserDetailsInfo.USER_FNAME+" TEXT,"+
             UserDetailsContract.UserDetailsInfo.USER_LNAME+" TEXT,"+ UserDetailsContract.UserDetailsInfo.USER_EMAIL+" TEXT,"+ UserDetailsContract.UserDetailsInfo.USER_PASSWORD+" TEXT,"+UserDetailsContract.UserDetailsInfo.USER_CONTACTNO+" INTEGER,"+UserDetailsContract.UserDetailsInfo.USER_AREA+" TEXT);";
     public static final String CREATE_BIKEDETAILS_QUERY = "create table "+ BikeDetailsContract.BikeDetailsInfo.TABLE_NAME+"(id integer primary key, "+ BikeDetailsContract.BikeDetailsInfo.BIKE_MAKE+" TEXT,"+
@@ -65,13 +65,14 @@ public class DBHandler extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertRegionBins  (String region_name, Double region_cord_x, Double region_cord_y, int region_weight) {
+    public boolean insertRegionBins  (String region_name, Double region_cord_x, Double region_cord_y, int region_weight, String region_isSafe) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RegionContract.RegionBinInfo.REGION_NAME, region_name);
         contentValues.put(RegionContract.RegionBinInfo.REGION_CORD_X, region_cord_x);
         contentValues.put(RegionContract.RegionBinInfo.REGION_CORD_Y, region_cord_y);
         contentValues.put(RegionContract.RegionBinInfo.REGION_WEIGHT, region_weight);
+        contentValues.put(RegionContract.RegionBinInfo.REGION_ISSAFE, region_isSafe);
 
         db.insert(RegionContract.RegionBinInfo.TABLE_NAME, null, contentValues);
         Log.e("insertRegionBins", "One row inserted");

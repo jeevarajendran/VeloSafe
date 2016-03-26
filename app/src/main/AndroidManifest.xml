@@ -21,7 +21,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyApbVSFMeitU6iYKL9EddQtVnSXJN3iCxg" />
+            android:value="AIzaSyCP27I0UTaddjxYTMcsSuo6EdJv66t2rcM" />
 
 
 
@@ -44,8 +44,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.techgenie.velosafe.MainActivity" />
@@ -55,24 +54,19 @@
             android:label="@string/title_register_user"/>
         <activity
             android:name=".PersonalDetailsActivity"
-            android:label="@string/title_activity_personal_details"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_personal_details"/>
         <activity
             android:name=".SafePlacesList"
-            android:label="Safe Place"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:label="Nearby Safe Places"></activity>
         <activity
             android:name=".BikeDetailsActivity"
-            android:label="@string/title_activity_bike_details"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_bike_details"/>
         <activity
             android:name=".ImageTestActivity"
-            android:label="@string/title_activity_image_test"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_image_test" />
         <activity
             android:name=".ReportActivity"
-            android:label="@string/title_activity_report"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_report" />
         <activity
             android:name=".PopActivity"
             android:label="@string/title_activity_pop"
