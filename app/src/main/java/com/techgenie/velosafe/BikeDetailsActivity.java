@@ -4,48 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.Toast;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-
-
-import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -92,16 +54,15 @@ public class BikeDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bike_details);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         registerButton = (Button) findViewById(R.id.register_button);
         bikeMake = (EditText) findViewById(R.id.bike_make);
         bikeModelNo = (EditText) findViewById(R.id.bike_model_number);
         bikeFrameNo = (EditText) findViewById(R.id.bike_frame_number);
         bikeColor = (EditText) findViewById(R.id.bike_color);
-        bikeImage = (ImageView) findViewById(R.id.bike_picture);
-        imageView = (ImageView) findViewById(R.id.bike_picture);
+        //bikeImage = (ImageView) findViewById(R.id.bike_picture);
+        //imageView = (ImageView) findViewById(R.id.bike_picture);
         final Intent inputIntent = getIntent();
 
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +91,10 @@ public class BikeDetailsActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             InputStream inputStream;
             try {
-                inputStream = getContentResolver().openInputStream(selectedImage);
-                selectedImageBitmap = BitmapFactory.decodeStream(inputStream);
+               inputStream = getContentResolver().openInputStream(selectedImage);
+                //selectedImageBitmap = BitmapFactory.decodeStream(inputStream);
                 //imageView.setImageURI(selectedImage);
-                imageView.setImageBitmap(selectedImageBitmap);
+                //imageView.setImageBitmap(selectedImageBitmap);
                 Toast.makeText(this, "Displayed Image", Toast.LENGTH_LONG).show();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -151,13 +112,14 @@ public class BikeDetailsActivity extends AppCompatActivity {
         }
 
         new Thread(new Runnable() {
+
             public void run() {
                 try{
                     String returnString="";
                     String responseString = "";
                     //URL url = new URL("https://pacific-scrubland-42954.herokuapp.com/MainHandler");
                     //URL url = new URL("http://10.6.56.150:8070/velosafe/Velosafe");
-                    URL url = new URL("http://10.6.45.178:8080/velotest/MainHandler");
+                    URL url = new URL("http://10.6.62.30:8080/MainHandler/ServerHandler/MainHandler");
                     HttpURLConnection connection = (HttpURLConnection)url.openConnection();
                     Log.d("Connected to URL ****", connection.toString());
                     String inputEmail = inputIntent.getExtras().getString("inputEmail","");
@@ -170,7 +132,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     String inputBikeModelNo = bikeModelNo.getText().toString();
                     String inputBikeFrameNo = bikeFrameNo.getText().toString();
                     String inputBikeColor = bikeColor.getText().toString();
-                    byte[] bikeImageBytes = bikeImage.toString().getBytes();
+                    //byte[] bikeImageBytes = bikeImage.toString().getBytes();
 
                     Log.d("Connected to URL ***:", inputEmail);
                     //inputString = URLEncoder.encode(inputString, "UTF-8");
@@ -189,8 +151,8 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     // Code for image
 
                     ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                    selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                    String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                    //selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                   // String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
 
                     //enable it later . This is needed . Just commenting out as because some issues with string parsing for images
                     //jsonObj.put("bike_image", encodedImage);
@@ -202,7 +164,9 @@ public class BikeDetailsActivity extends AppCompatActivity {
 
                     DataOutputStream out = new DataOutputStream(connection.getOutputStream ());
                     out.writeBytes("page=registration&reg_details=" + jsonObj.toString());
+                    System.out.println("page=registration&reg_details=" + jsonObj.toString());
                     out.close();
+                    System.out.println("1\n");
                     BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
                     StringBuilder sb=new StringBuilder();
@@ -210,6 +174,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     // inData.read
                     while ((returnString = in.readLine()) != null)
                     {
+                        System.out.println(returnString);
                         sb.append(returnString);
                     }
                     in.close();
@@ -217,8 +182,18 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     String jsonString = sb.toString();
 
                     System.out.println("JSON String retrieved from server : " + jsonString);
+                    if (jsonString.equals("Already registered")){
+                        System.out.println("it is registered");
+                        BikeDetailsActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getBaseContext(), "The email address has already been registered", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
 
-                    //JSONObject jsonObjResponse = new JSONObject(jsonString);
+                    }
+
                     JSONArray jsonArrayResponse = new JSONArray(jsonString);
                     System.out.println("JSON Array retrieved from server : " + jsonArrayResponse);
 
@@ -227,6 +202,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     Double region_cord_x;
                     Double region_cord_y;
                     int region_weight;
+                    String region_isSafe;
                     myDB = new DBHandler(context);
 
                     System.out.println("CONNECTED to SQLITE:" + myDB);
@@ -243,10 +219,12 @@ public class BikeDetailsActivity extends AppCompatActivity {
                         region_cord_x = eachRegionBinJSONObject.getDouble("region_cord_x");
                         region_cord_y = eachRegionBinJSONObject.getDouble("region_cord_y");
                         region_weight = eachRegionBinJSONObject.getInt("region_weight");
+                        region_isSafe = eachRegionBinJSONObject.getString("region_isSafe");
 
 
 
-                        myDB.insertRegionBins(region_name,region_cord_x,region_cord_y,region_weight);
+
+                        myDB.insertRegionBins(region_name,region_cord_x,region_cord_y,region_weight,region_isSafe);
 
                     }
 
@@ -266,7 +244,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
                     //String jsonbikeimagersponse = (String) jsonObjResponse.get("bike_image");
                     //System.out.println("String from server :" + jsonbikeimagersponse);
                     Intent intent = new Intent(getApplicationContext(), ImageTestActivity.class);
-                    intent.putExtra("bike_image", encodedImage);
+                   // intent.putExtra("bike_image", encodedImage);
                     startActivityForResult(intent, REQUEST_BIKE);
 
                 }catch(Exception e)
@@ -277,11 +255,16 @@ public class BikeDetailsActivity extends AppCompatActivity {
         }).start();
     }
 
-    @Override
+    public void emailAlreadyRegistered(){
+        Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();
+    }
+
+    /*@Override
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
     }
+    */
 
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();
@@ -293,4 +276,3 @@ public class BikeDetailsActivity extends AppCompatActivity {
     }
 
 }
-

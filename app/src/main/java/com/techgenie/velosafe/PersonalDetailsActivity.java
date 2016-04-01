@@ -48,7 +48,7 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             return;
         }
 
-        continuePersonal.setEnabled(false);
+        //continuePersonal.setEnabled(false);
 
         String inputEmail = inputIntent.getExtras().getString("inputEmail","");
         String inputPassword = inputIntent.getExtras().getString("inputPassword","");
@@ -72,11 +72,11 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+   /* @Override
+   public void onBackPressed() {
         // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }
+       moveTaskToBack(true);
+    }*/
 
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();

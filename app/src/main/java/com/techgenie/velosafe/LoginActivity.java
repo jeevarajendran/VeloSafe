@@ -1,10 +1,9 @@
 package com.techgenie.velosafe;
 
-import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,11 +11,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 //import android.view.View;
 
@@ -24,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    Context context = this;
 
     EditText inputEmail = null;
     EditText inputPassword = null;
@@ -37,8 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
@@ -55,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
                     public void run() {
 
                         try{
-                            URL url = new URL("http://192.168.56.1:8080/MainHandler/MainHandler");
+                            URL url = new URL("http://10.6.62.30:8080/MainHandler/ServerHandler/MainHandler");
                             URLConnection connection = url.openConnection();
 
                             Log.d("Connected to URL", connection.toString());
@@ -140,13 +142,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        loginButton.setEnabled(false);
+//        loginButton.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme);
-        progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+//        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+//                R.style.AppTheme);
+//        progressDialog.setIndeterminate(true);
+//        progressDialog.setMessage("Authenticating...");
+//        progressDialog.show();
 
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
@@ -156,60 +158,139 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
 
                 try{
-                    URL url = new URL("http://192.168.56.1:8080/MainHandler/MainHandler");
-                    URLConnection connection = url.openConnection();
-
-                    Log.d("Connected to URL", connection.toString());
-
+//                    URL url = new URL("http://10.6.45.178:8080/velotest/MainHandler");
+//                    URLConnection connection = url.openConnection();
+//
+//                    Log.d("Connected to URL", connection.toString());
+//
                     String email = inputEmail.getText().toString();
-                    //inputString = URLEncoder.encode(inputString, "UTF-8");
-
-                    Log.d("inputEmail", email);
-
+                    String password = inputPassword.getText().toString();
+//                    //inputString = URLEncoder.encode(inputString, "UTF-8");
+//
+//                    Log.d("inputEmail", email);
+//
+//                    connection.setDoOutput(true);
+//
+//                    Log.d("set Do Output","Done");
+//
+//
+//                    OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+//
+//                    Log.d("Out : ", out.toString());
+//
+//                    out.write(email);
+//
+//                    Log.d("wrote :", "Wrote");
+//
+//                    out.close();
+//
+//                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//
+//
+//                    Log.d("in reader", in.toString());
+//
+//
+//                    String returnString="";
+//                    //doubledValue =0;
+//                    responseString = "";
+//                    while ((returnString = in.readLine()) != null)
+//                    {
+//                        responseString = returnString;
+//                    }
+//                    in.close();
+                    URL url = new URL("http://192.168.0.15:8080/MainHandler/ServerHandler/MainHandler");
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    Log.d("Connected to URL ****", connection.toString());
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("email", email);
+                    jsonObj.put("password", password);
                     connection.setDoOutput(true);
-
-                    Log.d("set Do Output","Done");
-
-
-                    OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-
-                    Log.d("Out : ", out.toString());
-
-                    out.write(email);
-
-                    Log.d("wrote :", "Wrote");
-
+                    DataOutputStream out = new DataOutputStream(connection.getOutputStream());
+                    out.writeBytes("page=login&login_details=" + jsonObj.toString());
                     out.close();
 
                     BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-
-                    Log.d("in reader", in.toString());
-
-
-                    String returnString="";
-                    //doubledValue =0;
-                    responseString = "";
+                    StringBuilder sb=new StringBuilder();
+                    String returnString;
                     while ((returnString = in.readLine()) != null)
                     {
-                        responseString = returnString;
+                        sb.append(returnString);
                     }
                     in.close();
+                    String returnMsg = sb.toString();
+                    System.out.println("String retrieved from server : " + returnMsg);
+                    String parts[] = returnMsg.split("&");
+                    if (parts[0].equals("not match")){
+                        System.out.println("password not match");
+                        LoginActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getBaseContext(), "The email and the password do not match", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else if(parts[0].equals("not registerd")){
+                        System.out.println("email not registered");
+                        LoginActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getBaseContext(), "This email has not been registered", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+                    else if(parts[0].equals("login successful")){
+                        System.out.println("login successful");
+                        String jsonString = parts[1];
+                        JSONArray jsonArrayResponse = new JSONArray(jsonString);
+                        System.out.println("JSON Array retrieved from server : " + jsonArrayResponse);
+
+                        JSONObject eachRegionBinJSONObject = null;
+                        String region_name;
+                        Double region_cord_x;
+                        Double region_cord_y;
+                        int region_weight;
+                        String region_isSafe;
+                        DBHandler myDB = new DBHandler(context);
+
+                        for(int i=0;i<jsonArrayResponse.length();i++)
+                        {
+                            eachRegionBinJSONObject = jsonArrayResponse.getJSONObject(i);
+                            region_name = eachRegionBinJSONObject.getString("region_name");
+                            region_cord_x = eachRegionBinJSONObject.getDouble("region_cord_x");
+                            region_cord_y = eachRegionBinJSONObject.getDouble("region_cord_y");
+                            region_weight = eachRegionBinJSONObject.getInt("region_weight");
+                            region_isSafe = eachRegionBinJSONObject.getString("region_isSafe");
 
 
-                    runOnUiThread(new Runnable() {
-                        public void run() {
 
-                            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                                    R.style.AppTheme);
-                            progressDialog.setIndeterminate(true);
-                            progressDialog.setMessage("Loging in...");
-                            progressDialog.show();
-
-                            Toast.makeText(getBaseContext(), "Login successful. Welcome", Toast.LENGTH_LONG).show();
+                            myDB.insertRegionBins(region_name,region_cord_x,region_cord_y,region_weight, region_isSafe);
 
                         }
-                    });
+                        myDB.close();
+                        System.out.println("done with saving to sqlite part");
+                        Intent intent = new Intent(getApplicationContext(), HeatMap.class);
+                        startActivity(intent);
+                        LoginActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                Toast.makeText(getBaseContext(), "Logged in successfully!", Toast.LENGTH_LONG).show();
+                            }
+                        });
+                    }
+
+
+
+
+//                    runOnUiThread(new Runnable() {
+//                        public void run() {
+//
+//                            final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+//                                    R.style.AppTheme);
+//                            progressDialog.setIndeterminate(true);
+//                            progressDialog.setMessage("Loging in...");
+//                            progressDialog.show();
+//                            Toast.makeText(getBaseContext(), "Login successful. Welcome", Toast.LENGTH_LONG).show();
+//
+//                        }
+//                    });
 
                 }catch(Exception e)
                 {
@@ -217,33 +298,33 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         }).start();
-        new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
-                        progressDialog.dismiss();
-                    }
-                }, 3000);
+//        new android.os.Handler().postDelayed(
+//                new Runnable() {
+//                    public void run() {
+//                        // On complete call either onLoginSuccess or onLoginFailed
+//                        onLoginSuccess();
+//                        // onLoginFailed();
+//                        progressDialog.dismiss();
+//                    }
+//                }, 3000);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        if (requestCode == REQUEST_SIGNUP) {
+//            if (resultCode == RESULT_OK) {
+//
+//                // TODO: Implement successful signup logic here
+//                // By default we just finish the Activity and log them in automatically
+//                this.finish();
+//            }
+//        }
+//    }
 
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
-    }
-
-    @Override
+    /*@Override
     public void onBackPressed() {
         // disable going back to the MainActivity
         moveTaskToBack(true);
-    }
+    }*/
 
     public void onLoginSuccess() {
         loginButton.setEnabled(true);

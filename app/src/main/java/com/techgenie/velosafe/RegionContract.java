@@ -9,6 +9,7 @@ public class RegionContract {
         public static final String REGION_CORD_Y = "region_cord_y";
         public static final String REGION_WEIGHT = "region_weight";
         public static final String TABLE_NAME = "region_bins";
+        public static final String REGION_ISSAFE = "region_isSafe";
 
     }
 }

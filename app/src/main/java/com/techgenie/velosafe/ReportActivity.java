@@ -7,13 +7,16 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import org.json.JSONObject;
 
@@ -28,13 +31,28 @@ import java.util.Locale;
 
 public class ReportActivity extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+            }
+        });
+
+        requestNewInterstitial();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
 
         Button personalButton = (Button) findViewById(R.id.personalDeatilsButton);
         Button bikeButton = (Button) findViewById(R.id.BikeDeatilsButton);
@@ -67,6 +85,14 @@ public class ReportActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     public void PickLostDateonClick(View view) {
@@ -134,12 +160,12 @@ public class ReportActivity extends AppCompatActivity {
 
     private void updatePlaceLabel() {
         TextView textview = (TextView) findViewById(R.id.lost_location);
-        textview.setText("Lost Location: " + "To be done");
+        textview.setText("Lost Location: " + "(53.39242822,-6.29517351)");
     }
 
-    private int getLostBin(){
-        return 1;
-    }
+//    private int getLostBin(){
+//        return 4;
+//    }
 
     public void ReportSubmitButtononClick(View view) {
         System.out.println("let's report!");
@@ -157,7 +183,7 @@ public class ReportActivity extends AppCompatActivity {
         final String bike_model = bikeDetailsCursor.getString(2);
         final String bike_frame = bikeDetailsCursor.getString(3);
         final String bike_color = bikeDetailsCursor.getString(4);
-        final int lost_bin_number = getLostBin();
+//        final int lost_bin_number = getLostBin();
         myDB.close();
 
         new Thread(new Runnable() {
@@ -166,7 +192,7 @@ public class ReportActivity extends AppCompatActivity {
 
                     System.out.println("starts here");
 //                    URL url = new URL("http://192.168.1.14:8080/velotest/MainHandler");
-                    URL url = new URL("http://10.6.45.178:8080/velotest/MainHandler");
+                    URL url = new URL("http://192.168.0.15:8080/MainHandler/ServerHandler/MainHandler");
                     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                     Log.d("Connected to URL ****", connection.toString());
                     TextView lost_location = (TextView) findViewById(R.id.lost_location);
@@ -178,7 +204,7 @@ public class ReportActivity extends AppCompatActivity {
 
                     JSONObject jsonObj = new JSONObject();
                     jsonObj.put("lost_location", lost_location.getText().toString());
-                    jsonObj.put("lost_bin_number", lost_bin_number);
+//                    jsonObj.put("lost_bin_number", lost_bin_number);
                     jsonObj.put("lost_time_date", lost_time_date.getText().toString());
                     jsonObj.put("lost_time_time", lost_time_time.getText().toString());
                     jsonObj.put("first_name", first_name);
