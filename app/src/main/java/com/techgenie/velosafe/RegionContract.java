@@ -1,7 +1,10 @@
 package com.techgenie.velosafe;
 
+/**
+ * Class Name : RegionContract
+ * Purpose : Declaring region name,region cordinate x,region cordinate y,region weight,table name,region is safe
+ */
 public class RegionContract {
-
     public static abstract class RegionBinInfo
     {
         public static final String REGION_NAME = "region_name";

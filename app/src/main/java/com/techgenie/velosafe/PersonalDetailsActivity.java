@@ -8,9 +8,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
-
+/**
+ * Class Name : PersonalDetailsActivity
+ * Purpose : Registering the personal details.Validating the details.If any error occurs in these
+ * fields error will show
+ */
 public class PersonalDetailsActivity extends AppCompatActivity {
-
     private final String TAG = PersonalDetailsActivity.class.getSimpleName();
     private static final int REQUEST_PERSONAL = 0;
     AppCompatButton continuePersonal = null;
@@ -29,7 +32,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         inputArea = (EditText) findViewById(R.id.input_area);
         continuePersonal = (AppCompatButton) findViewById(R.id.continue_personal);
         final Intent inputIntent = getIntent();
-
         continuePersonal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,19 +39,18 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             }
         });
     }
+         /* method:continueToBike
+         * purpose:checking all fields are filled.If all the fields are filled then only user can
+         * goes continue the registration
+         *
+         * */
 
     public void continueToBike(Intent inputIntent ) {
         Log.d(TAG, "continueToBike");
-
-        // TODO : Enable validation later
-
         if (!validate()) {
             onContinueFailed();
             return;
         }
-
-        //continuePersonal.setEnabled(false);
-
         String inputEmail = inputIntent.getExtras().getString("inputEmail","");
         String inputPassword = inputIntent.getExtras().getString("inputPassword","");
         Intent intent = new Intent(getApplicationContext(), BikeDetailsActivity.class);
@@ -59,7 +60,6 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         intent.putExtra("inputLastName",inputLastName.getText().toString());
         intent.putExtra("inputContactNo",inputContactNo.getText().toString());
         intent.putExtra("inputArea",inputArea.getText().toString());
-
         startActivityForResult(intent, REQUEST_PERSONAL);
     }
 
@@ -72,41 +72,37 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         }
     }
 
-   /* @Override
-   public void onBackPressed() {
-        // disable going back to the MainActivity
-       moveTaskToBack(true);
-    }*/
-
+          /* method:continueToBik
+         * purpose:Method for error displaying when fields are not complete or when error is there
+         * */
     public void onContinueFailed() {
-        Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG).show();
         continuePersonal.setEnabled(true);
     }
 
+         /* method:continueToBik
+         * purpose:validating the  personal details
+         * */
     public boolean validate() {
-
         boolean valid = true;
         String firstName = inputFirstName.getText().toString();
         String lastName = inputLastName.getText().toString();
         String contactNo = inputContactNo.getText().toString();
         String area = inputArea.getText().toString();
-
         if (firstName.isEmpty() || firstName.length() < 3) {
-            inputFirstName.setError("at least 3 characters");
+            inputFirstName.setError("At least 3 characters");
             valid = false;
         } else {
             inputFirstName.setError(null);
         }
-
         if (lastName.isEmpty() || lastName.length() < 3) {
-            inputLastName.setError("at least 3 characters");
+            inputLastName.setError("At least 3 characters");
             valid = false;
         } else {
             inputLastName.setError(null);
         }
-
         if (contactNo.isEmpty() || !android.util.Patterns.PHONE.matcher(contactNo).matches()) {
-            inputContactNo.setError("enter a valid contact Number");
+            inputContactNo.setError("Enter a valid contact Number");
             valid = false;
         } else {
             inputContactNo.setError(null);

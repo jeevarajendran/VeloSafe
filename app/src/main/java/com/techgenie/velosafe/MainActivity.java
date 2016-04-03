@@ -8,7 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-
+/*Class:MainActivity
+  purpose:In this activity describes when user click on heat map button it will shows the heat map
+  of bike thefts in that area,when user click on login button user can login and when user click on
+  register user can register with all details.
+ */
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -17,54 +21,51 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
+    /* method:HeatMapButtonOnClick
+    * purpose:when clicking on heat map button it goes heat map activity
+    *
+    * */
 
     public void HeatMapButtonOnClick(View view){
         Intent intent = new Intent(this,HeatMap.class);
         startActivity(intent);
     }
+    /* method:loginButtonOnClick
+   * purpose:when clicking on Login button it goes login activity
+   *
+   * */
     public void loginButtonOnClick(View view) {
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
     }
-
+    /* method:reportButtonOnClick
+  * purpose:when clicking on report button it goes heat map activity
+  *
+  * */
     public void reportButtonOnClick(View view) {
         Intent intent = new Intent(this,ReportActivity.class);
         startActivity(intent);
     }
-
+    /* method:registerButtonOnClick
+  * purpose:when clicking on register button it goes  Registration activity
+  *
+  * */
     public void registerButtonOnClick(View view) {
         Intent intent = new Intent(this,RegistrationActivity.class);
         startActivity(intent);

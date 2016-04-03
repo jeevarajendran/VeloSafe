@@ -9,8 +9,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+/**
+        * Class Name : RegistrationActivity
+        * Purpose : In this registration activity user have to enter the personal details.validating
+        *  the personal details.If any error occur it will shows the error
+        *
+        */
 public class RegistrationActivity extends AppCompatActivity {
-
     private final String TAG = RegistrationActivity.class.getSimpleName();
     private static final int REQUEST_REGISTRATION = 100;
     AppCompatButton continueRegistration = null;
@@ -24,7 +29,6 @@ public class RegistrationActivity extends AppCompatActivity {
         continueRegistration = (AppCompatButton) findViewById(R.id.continue_registration);
         inputEmail = (EditText) findViewById(R.id.input_email);
         inputPassword = (EditText) findViewById(R.id.input_password);
-
         continueRegistration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,30 +36,23 @@ public class RegistrationActivity extends AppCompatActivity {
             }
         });
     }
+    /* method:continueToPersonal
+     * purpose:checking the Email and password are filled.If it is filled the user can continue the personal details
+     *
+     * */
 
     public void continueToPersonal() {
         Log.d(TAG, "continueToPersonal");
-
-        // TODO : enable validation later
-
         if (!validate()) {
             onContinueFailed();
             return;
         }
-
-        //continueRegistration.setEnabled(false);
-
         Intent intent = new Intent(getApplicationContext(), PersonalDetailsActivity.class);
         intent.putExtra("inputEmail",inputEmail.getText().toString());
         intent.putExtra("inputPassword",inputPassword.getText().toString());
         startActivityForResult(intent, REQUEST_REGISTRATION);
     }
 
-    /*public void onSignupSuccess() {
-        createAccount.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
-    }*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_REGISTRATION) {
@@ -65,46 +62,34 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    /*@Override
-    public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
-    }*/
+    /* method:onContinueFailed
+     * purpose:Method for error displaying when fields are not complete or error is there
+     *
+     * */
 
     public void onContinueFailed() {
-        Toast.makeText(getBaseContext(), "Correct errors to continue!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG).show();
         continueRegistration.setEnabled(true);
     }
+
+    /* method:validate
+     * purpose:Validating the user
+     *
+     * */
 
     public boolean validate() {
         boolean valid = true;
         String email = inputEmail.getText().toString();
         String password = inputPassword.getText().toString();
-
-        /* if (name.isEmpty() || name.length() < 3) {
-            inputFirstName.setError("at least 3 characters");
-            valid = false;
-        } else {
-            inputFirstName.setError(null);
-        }
-        */
-
-        /*if (contactNo.isEmpty() || !android.util.Patterns.PHONE.matcher(contactNo).matches()) {
-            inputContactNo.setError("enter a valid contact Number");
-            valid = false;
-        } else {
-            inputContactNo.setError(null);
-        }*/
-
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            inputEmail.setError("enter a valid email address");
+            inputEmail.setError("Enter a valid email address");
             valid = false;
         } else {
             inputEmail.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            inputPassword.setError("between 4 and 10 alphanumeric characters");
+            inputPassword.setError("Atleast 4 characters should be there and it contain alphanumeric characters");
             valid = false;
         } else {
             inputPassword.setError(null);

@@ -1,4 +1,5 @@
 package com.techgenie.velosafe;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,18 +9,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Class Name : SafePlacesList
+ * Purpose : This activity describes when user click the safe button, user can see the list of most safe
+ * places in green color background and places that are not much safe are in orange background color
+ */
 
 public class SafePlacesList extends AppCompatActivity {
     String dataFromHeatMap;
@@ -32,36 +34,30 @@ public class SafePlacesList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_safe_places_list);
-       
         final Intent intent = getIntent();
         dataFromHeatMap= intent.getStringExtra("ListJson");
         try {
             listJson = new JSONArray(dataFromHeatMap);
             Log.d("list Json",dataFromHeatMap);
         }
-
         catch (Exception e){
             Log.d("Error :: "," Retriving data from HeatMap Activity...");
         }
         int i;
-
         list = buildData();
         final ListView myListView = (ListView) findViewById(R.id.listView);
-         sa = new SimpleAdapter(this,list,android.R.layout.simple_list_item_2,new String[] {"Places", "Distance"},new int[] {android.R.id.text1, android.R.id.text2});
-         myListView.setAdapter(sa);
-
+        sa = new SimpleAdapter(this,list,android.R.layout.simple_list_item_2,new String[]
+                {"Places", "Distance"},new int[] {android.R.id.text1, android.R.id.text2});
+        myListView.setAdapter(sa);
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView parent, View view,
                                     int position, long id) {
-                JSONObject jsonObject;
                 try {
-
                     SelectedItem = list.get(position).get("Places").toString();
-                    HeatMap heatMap=new HeatMap();
-                    CameraPosition cameraPosition = new CameraPosition.Builder().target(getLocationOfSelectedItem(SelectedItem)).zoom(15).build();
+                    CameraPosition cameraPosition = new CameraPosition.Builder().target
+                            (getLocationOfSelectedItem(SelectedItem)).zoom(15).build();
                     HeatMap.mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     SafePlacesList.this.finish();
-
                 }
                 catch (Exception e) {
                     Log.d("Error :: "," Item Listener...");
@@ -69,7 +65,9 @@ public class SafePlacesList extends AppCompatActivity {
           }
         });
     }
-
+    /*method:buildData
+      purpose:creating the array list for list view.
+    */
     private ArrayList<Map<String, String>> buildData() {
         ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
         int i;
@@ -88,6 +86,9 @@ public class SafePlacesList extends AppCompatActivity {
         return list;
     }
 
+    /*method:putData
+      purpose:putting data in the list view.
+      */
     private HashMap<String, String> putData(String name, String purpose) {
         HashMap<String, String> item = new HashMap<String, String>();
         item.put("Places", name);
@@ -95,6 +96,9 @@ public class SafePlacesList extends AppCompatActivity {
         return item;
     }
 
+    /*method:getLocationOfSelectedItem
+      purpose:Getting location of the select data item.
+      */
     public LatLng getLocationOfSelectedItem(String selectedItem) {
         int i;
         LatLng selectedLocation;
@@ -103,16 +107,16 @@ public class SafePlacesList extends AppCompatActivity {
             try {
                 jsonObject = listJson.getJSONObject(i);
                 if (jsonObject.getString("Region").equals(selectedItem)) {
-                    selectedLocation = new LatLng(Double.parseDouble(jsonObject.getString("Latitude")), Double.parseDouble(jsonObject.getString("Longitude")));
-                    Log.d(String.valueOf(selectedLocation.latitude),String.valueOf(selectedLocation.longitude));
+                    selectedLocation = new LatLng(Double.parseDouble(jsonObject.getString("Latitude")),
+                            Double.parseDouble(jsonObject.getString("Longitude")));
+                    Log.d(String.valueOf(selectedLocation.latitude),String.valueOf
+                            (selectedLocation.longitude));
                     return selectedLocation;
                 }
             } catch (Exception e) {
-                Log.d("Error :: "," Get Location of Selectedd Item.. ");
+                Log.d("Error :: "," Get Location of Selected Item.. ");
             }
          }
-
         return null;
         }
-
 }
