@@ -59,9 +59,10 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-         /*method:Login
-         purpose:checking the validation.
-          */
+    /*method:Login
+      purpose:checking the validation.
+    */
+
     public void login(){
         Log.d(TAG, "Login");
         if (!validate()) {
@@ -152,18 +153,18 @@ public class LoginActivity extends AppCompatActivity {
             }
         }).start();
     }
+    /*method:onLoginFailed
+      purpose:If the email and password mismatch then it shows login failed
+    */
 
-         /*method:onLoginFailed
-            purpose:If the email and password mismatch then it shows login failed
-         */
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
         loginButton.setEnabled(true);
     }
 
-       /*method:validate
-         purpose:Validating the email and password.
-      */
+    /*method:validate
+      purpose:Validating the email and password.
+    */
     public boolean validate() {
         boolean valid = true;
         String email = inputEmail.getText().toString();

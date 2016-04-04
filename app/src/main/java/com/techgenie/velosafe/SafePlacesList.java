@@ -65,9 +65,11 @@ public class SafePlacesList extends AppCompatActivity {
           }
         });
     }
+
     /*method:buildData
       purpose:creating the array list for list view.
     */
+
     private ArrayList<Map<String, String>> buildData() {
         ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
         int i;
@@ -89,6 +91,7 @@ public class SafePlacesList extends AppCompatActivity {
     /*method:putData
       purpose:putting data in the list view.
       */
+
     private HashMap<String, String> putData(String name, String purpose) {
         HashMap<String, String> item = new HashMap<String, String>();
         item.put("Places", name);
@@ -98,7 +101,8 @@ public class SafePlacesList extends AppCompatActivity {
 
     /*method:getLocationOfSelectedItem
       purpose:Getting location of the select data item.
-      */
+    */
+
     public LatLng getLocationOfSelectedItem(String selectedItem) {
         int i;
         LatLng selectedLocation;

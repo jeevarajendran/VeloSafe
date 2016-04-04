@@ -12,7 +12,7 @@ import android.view.View;
   purpose:In this activity describes when user click on heat map button it will shows the heat map
   of bike thefts in that area,when user click on login button user can login and when user click on
   register user can register with all details.
- */
+*/
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -38,34 +38,38 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     /* method:HeatMapButtonOnClick
-    * purpose:when clicking on heat map button it goes heat map activity
-    *
-    * */
+     * purpose:when clicking on heat map button it goes heat map activity
+     *
+     */
 
     public void HeatMapButtonOnClick(View view){
         Intent intent = new Intent(this,HeatMap.class);
         startActivity(intent);
     }
+
     /* method:loginButtonOnClick
-   * purpose:when clicking on Login button it goes login activity
-   *
-   * */
+     * purpose:when clicking on Login button it goes login activity
+     *
+     */
+
     public void loginButtonOnClick(View view) {
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
     }
+
     /* method:reportButtonOnClick
-  * purpose:when clicking on report button it goes heat map activity
-  *
-  * */
+     * purpose:when clicking on report button it goes heat map activity
+     *
+     */
+
     public void reportButtonOnClick(View view) {
         Intent intent = new Intent(this,ReportActivity.class);
         startActivity(intent);
     }
     /* method:registerButtonOnClick
-  * purpose:when clicking on register button it goes  Registration activity
-  *
-  * */
+     * purpose:when clicking on register button it goes  Registration activity
+     *
+     */
     public void registerButtonOnClick(View view) {
         Intent intent = new Intent(this,RegistrationActivity.class);
         startActivity(intent);

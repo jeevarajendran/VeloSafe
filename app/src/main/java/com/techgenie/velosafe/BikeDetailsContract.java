@@ -1,6 +1,9 @@
 package com.techgenie.velosafe;
 
-
+/**
+ * Class Name : BikeDetailsContract
+ * Purpose : Declaring the bike name,bike model,bike frameno,bike color,table name
+ */
 public class BikeDetailsContract {
     public static abstract class BikeDetailsInfo
     {

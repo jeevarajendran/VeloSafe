@@ -5,7 +5,6 @@ import android.content.Context;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
 
-
 public class GoogleServer {
     private ProgressDialog dialog;
     HeatMap heatMap;

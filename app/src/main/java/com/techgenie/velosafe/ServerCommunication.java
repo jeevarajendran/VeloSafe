@@ -25,10 +25,11 @@ public class ServerCommunication {
     HttpPost httpPostRequest;
     ServerCommunication(Context HeatMapActivity) {
     }
-        /* method:ContactServer
-         * purpose:method to contacting with the server.Error will be displayed if its failed
-         *
-         * */
+
+    /* method:ContactServer
+     * purpose:method to contacting with the server.Error will be displayed if its failed
+     *
+     * */
 
     public JSONArray ContactServer() {
         jsonArray = new JSONArray();

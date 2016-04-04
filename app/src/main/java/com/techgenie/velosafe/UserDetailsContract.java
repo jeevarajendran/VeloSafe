@@ -4,10 +4,12 @@ package com.techgenie.velosafe;
   purpose:This class defines the user details
  */
 public class UserDetailsContract {
-         /* method:UserDetailsInfo
-         * purpose:This method declares all user detal information
-         *
-         * */
+
+    /* method:UserDetailsInfo
+     * purpose:This method declares all user detal information
+     *
+     */
+
     public static abstract class UserDetailsInfo {
         public static final String USER_FNAME = "user_fname";
         public static final String USER_LNAME = "user_lname";

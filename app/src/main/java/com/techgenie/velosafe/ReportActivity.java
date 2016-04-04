@@ -31,7 +31,6 @@ import java.util.Locale;
   calendar,time,select the location.The other personal details and bike details will take from the
   sever.If the reporting is failed it will show error messages
  */
-
 public class ReportActivity extends AppCompatActivity {
     Calendar myCalendar = Calendar.getInstance();
     InterstitialAd mInterstitialAd;
@@ -80,7 +79,8 @@ public class ReportActivity extends AppCompatActivity {
     /* method:requestNewInterstitial
      * purpose:method for advertisment.Loading the advertisment
      *
-     * */
+     */
+
     private void requestNewInterstitial() {
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -88,10 +88,10 @@ public class ReportActivity extends AppCompatActivity {
 
         mInterstitialAd.loadAd(adRequest);
     }
+
     /* method:PickLostDateonClick
      * purpose:method for calender.User can choose date
-     *
-     * */
+     */
 
     public void PickLostDateonClick(View view) {
         new DatePickerDialog(ReportActivity.this, date, myCalendar
@@ -112,18 +112,19 @@ public class ReportActivity extends AppCompatActivity {
 
     /* method:updateDateLabel
      * purpose:Updating the bike theft date
-     *
-     * */
+     */
+
     private void updateDateLabel(){
         String myFormat = "MM/dd/yy";
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         TextView textview = (TextView) findViewById(R.id.lost_time_date);
         textview.setText("Lost Date: " + sdf.format(myCalendar.getTime()));
     }
+
     /* method:PickLostTimeonClick
      * purpose:user can choose time
-     *
-     * */
+     */
+
     public void PickLostTimeonClick(View view) {
         new TimePickerDialog(ReportActivity.this, time, myCalendar
                 .get(Calendar.HOUR_OF_DAY), myCalendar.get(Calendar.MINUTE),false).show();
@@ -138,6 +139,7 @@ public class ReportActivity extends AppCompatActivity {
             updateTimeLabel();
         }
     };
+
     /* method:PickLostTimeonClick
     * purpose:user can choose time
     *
@@ -148,27 +150,30 @@ public class ReportActivity extends AppCompatActivity {
         TextView textview = (TextView) findViewById(R.id.lost_time_time);
         textview.setText("Lost Time: " + sdf.format(myCalendar.getTime()));
     }
+
     /* method:PickLostLocationonClick
-   * purpose:Selecting the location of bike theft.By cllicking on the button
-   *
-   * */
+     * purpose:Selecting the location of bike theft.By cllicking on the button
+     *
+     */
 
     public void PickLostLocationonClick(View view) {
         System.out.println("select the location of lost.");
     }
     /* method:updatePlaceLabel
-   * purpose:Selecting the lost location
-   *
-   * */
+     * purpose:Selecting the lost location
+     *
+     */
     private void updatePlaceLabel() {
         TextView textview = (TextView) findViewById(R.id.lost_location);
         textview.setText("Lost Location: " + "(53.39242822,-6.29517351)");
     }
+
     /* method:updatePlaceLabel
-   * purpose:Reporting the bike the theft.when user click on report button.It get all the data from
-   * the server.If any error occurs reports will be failed
-   *
-   * */
+     * purpose:Reporting the bike the theft.when user click on report button.It get all the data from
+     * the server.If any error occurs reports will be failed
+     *
+     */
+
     public void ReportSubmitButtononClick(View view) {
         System.out.println("let's report!");
         final Context context = this;

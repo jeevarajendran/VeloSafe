@@ -10,11 +10,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 /**
-        * Class Name : RegistrationActivity
-        * Purpose : In this registration activity user have to enter the personal details.validating
-        *  the personal details.If any error occur it will shows the error
-        *
-        */
+ * Class Name : RegistrationActivity
+ * Purpose : In this registration activity user have to enter the personal details.validating
+ *  the personal details.If any error occur it will shows the error
+ *
+ */
 public class RegistrationActivity extends AppCompatActivity {
     private final String TAG = RegistrationActivity.class.getSimpleName();
     private static final int REQUEST_REGISTRATION = 100;
@@ -39,7 +39,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /* method:continueToPersonal
      * purpose:checking the Email and password are filled.If it is filled the user can continue the personal details
      *
-     * */
+     */
 
     public void continueToPersonal() {
         Log.d(TAG, "continueToPersonal");
@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /* method:onContinueFailed
      * purpose:Method for error displaying when fields are not complete or error is there
      *
-     * */
+     */
 
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG).show();
@@ -75,7 +75,7 @@ public class RegistrationActivity extends AppCompatActivity {
     /* method:validate
      * purpose:Validating the user
      *
-     * */
+     */
 
     public boolean validate() {
         boolean valid = true;

@@ -39,11 +39,12 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             }
         });
     }
-         /* method:continueToBike
-         * purpose:checking all fields are filled.If all the fields are filled then only user can
-         * goes continue the registration
-         *
-         * */
+
+    /* method:continueToBike
+     * purpose:checking all fields are filled.If all the fields are filled then only user can
+     * goes continue the registration
+     *
+     */
 
     public void continueToBike(Intent inputIntent ) {
         Log.d(TAG, "continueToBike");
@@ -72,17 +73,19 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         }
     }
 
-          /* method:continueToBik
-         * purpose:Method for error displaying when fields are not complete or when error is there
-         * */
+    /* method:continueToBik
+     * purpose:Method for error displaying when fields are not complete or when error is there
+     */
+
     public void onContinueFailed() {
         Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG).show();
         continuePersonal.setEnabled(true);
     }
 
-         /* method:continueToBik
-         * purpose:validating the  personal details
-         * */
+    /* method:continueToBik
+     * purpose:validating the  personal details
+     */
+
     public boolean validate() {
         boolean valid = true;
         String firstName = inputFirstName.getText().toString();
