@@ -5,7 +5,7 @@
 
 
     <fragment
-       xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
@@ -29,7 +29,7 @@
             android:layout_row="26"
             android:layout_column="7"
             android:scaleType="fitCenter"
-            android:src="@drawable/button12"
+            android:src="@drawable/safe_place_button"
             android:background="@android:color/transparent"
             android:alpha="0.50" />
         <ProgressBar
@@ -40,9 +40,6 @@
             android:layout_centerHorizontal="true"
             android:layout_row="26"
             android:layout_column="8" />
-
-
-
     </GridLayout>
 
 
@@ -53,7 +50,7 @@
         android:layout_row="25"
         android:layout_column="7"
         android:scaleType="fitCenter"
-        android:src="@drawable/velosafe_logo"
+        android:src="@drawable/velosafe_logo_1"
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         android:layout_alignParentTop="true" />
@@ -74,8 +71,6 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="47dp"
         android:alpha="0.80"/>
-
-
 
 </RelativeLayout>
 

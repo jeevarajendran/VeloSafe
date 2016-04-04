@@ -14,7 +14,8 @@
     android:background="@drawable/bike_back2"
     android:contextClickable="true">
 
-    <RelativeLayout android:layout_height="wrap_content" android:layout_width="wrap_content">
+    <RelativeLayout android:layout_height="wrap_content" android:layout_width="wrap_content"
+        android:id="@+id/relativeLayout">
 
     <TextView
         android:layout_width="wrap_content"
@@ -31,51 +32,55 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="REPORT"
-        android:layout_above="@+id/loginButton"
-        android:textSize="30sp"
+        android:src="@drawable/report_button"
+        android:id="@+id/reportButton"
         android:onClick="reportButtonOnClick"
-        android:layout_alignRight="@+id/loginButton"
-        android:layout_alignEnd="@+id/loginButton"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/transparent"
+        android:layout_marginBottom="51dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/login"
-        android:id="@+id/loginButton"
-        android:onClick="loginButtonOnClick"
-        android:layout_above="@+id/registerButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:clickable="true"
-        android:focusable="true"
-        />
+        android:text="Heat Map"
+        android:src="@drawable/heat_map"
+        android:id="@+id/heatMapButton"
+        android:onClick="HeatMapButtonOnClick"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/reportButton"
+        android:layout_alignRight="@+id/reportButton"
+        android:layout_alignEnd="@+id/reportButton" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/register"
-        android:id="@+id/registerButton"
-        android:onClick="registerButtonOnClick"
-        android:layout_alignParentBottom="true"
+        android:src="@drawable/login_1"
+        android:id="@+id/loginButton"
+        android:onClick="loginButtonOnClick"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/heatMapButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="53dp" />
+        android:layout_alignParentStart="true" />
 
-    <Button
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Heat Map"
-        android:id="@+id/heatMapButton"
-        android:onClick="HeatMapButtonOnClick"
-        android:layout_alignBottom="@+id/registerButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:src="@drawable/regi"
+        android:id="@+id/registerButton"
+        android:onClick="registerButtonOnClick"
+        android:background="@android:color/transparent"
+        android:layout_above="@+id/loginButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
     <!--<ImageView

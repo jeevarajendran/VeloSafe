@@ -78,7 +78,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
      */
 
     public void onContinueFailed() {
-        Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG)
+                .show();
         continuePersonal.setEnabled(true);
     }
 

@@ -15,6 +15,12 @@ import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+
+/*
+Class GPSTracker
+Purpose: Provide current location by using GPS and mobile network
+ */
+
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -34,6 +40,12 @@ public class GPSTracker extends Service implements LocationListener {
         this.mContext = context;
         getLocation();
     }
+
+
+    /*
+    Method getLocation
+    calculates device current location
+     */
 
     public Location getLocation() {
         try {
@@ -66,7 +78,12 @@ public class GPSTracker extends Service implements LocationListener {
                 }
                 if (isGPSEnabled) {
                     if (location == null) {
-                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        if (ActivityCompat.checkSelfPermission(this,
+                                Manifest.permission.ACCESS_FINE_LOCATION) !=
+                                PackageManager.PERMISSION_GRANTED &&
+                                ActivityCompat.checkSelfPermission
+                                        (this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                                        PackageManager.PERMISSION_GRANTED) {
                             return null;
                         }
                         locationManager.requestLocationUpdates(
@@ -95,13 +112,20 @@ public class GPSTracker extends Service implements LocationListener {
 
     public void stopGPS() {
         if (locationManager != null) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                    (this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                    PackageManager.PERMISSION_GRANTED) {
                 return;
             }
             locationManager.removeUpdates(GPSTracker.this);
         }
     }
 
+    /*
+    Method getLatitude
+    returns latitude of current gps location
+     */
     public double getLatitude(){
         if(location != null){
             latitude = location.getLatitude();
@@ -109,6 +133,10 @@ public class GPSTracker extends Service implements LocationListener {
         return latitude;
     }
 
+    /*
+    Method getLongitude
+    returns lagitude of current gps location
+     */
     public double getLongitude(){
         if(location != null){
             longitude = location.getLongitude();
@@ -120,11 +148,17 @@ public class GPSTracker extends Service implements LocationListener {
         return this.canGetLocation;
     }
 
+    /*
+Method showSettingsAlert
+displays alert if gps is off
+ */
     public void showSettingsAlert(){
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
 
         alertDialog.setTitle("GPS is Disabled..");
-        alertDialog.setMessage("Sorry, GPS of your device is off, we wont be able to help you without GPS, Please turn it on and relaunch Velosafe..");
+        alertDialog.setMessage
+                ("Sorry, GPS of your device is off, we wont be able to " +
+                        "help you without GPS, Please turn it on and relaunch Velosafe..");
         alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog,int which) {
                 dialog.cancel();
@@ -138,7 +172,6 @@ public class GPSTracker extends Service implements LocationListener {
                 new HeatMap().killApp();
             }
         });
-
         alertDialog.show();
     }
 

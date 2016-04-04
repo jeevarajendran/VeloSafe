@@ -75,9 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 try{
                     String email = inputEmail.getText().toString();
                     String password = inputPassword.getText().toString();
-                    ServerCommunication serverCommunication=new ServerCommunication(context);
-                    URL url=new URL(serverCommunication.url);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    HttpURLConnection connection=new Connection().connect();
                     Log.d("Connected to URL", connection.toString());
                     JSONObject jsonObj = new JSONObject();
                     jsonObj.put("email", email);
@@ -86,7 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                     DataOutputStream out = new DataOutputStream(connection.getOutputStream());
                     out.writeBytes("page=login&login_details=" + jsonObj.toString());
                     out.close();
-                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection
+                            .getInputStream()));
                     StringBuilder sb=new StringBuilder();
                     String returnString;
                     while ((returnString = in.readLine()) != null) {
@@ -100,7 +99,8 @@ public class LoginActivity extends AppCompatActivity {
                         System.out.println("Password not match");
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getBaseContext(),"The email and the password do not match",
+                                Toast.makeText(getBaseContext(),"The email and " +
+                                                "the password do not match",
                                         Toast.LENGTH_LONG).show();
                             }
                         });
@@ -109,7 +109,8 @@ public class LoginActivity extends AppCompatActivity {
                         System.out.println("Email not registered");
                         LoginActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getBaseContext(), "This email has not been registered",
+                                Toast.makeText(getBaseContext(), "This email " +
+                                                "has not been registered",
                                         Toast.LENGTH_LONG).show();
                             }
                         });
@@ -117,7 +118,8 @@ public class LoginActivity extends AppCompatActivity {
                     else if(parts[0].equals("login successful")){
                         String jsonString = parts[1];
                         JSONArray jsonArrayResponse = new JSONArray(jsonString);
-                        System.out.println("JSON Array retrieved from server : " + jsonArrayResponse);
+                        System.out.println("JSON Array retrieved from server : " +
+                                jsonArrayResponse);
                         JSONObject eachRegionBinJSONObject = null;
                         String region_name;
                         Double region_cord_x;
@@ -132,7 +134,8 @@ public class LoginActivity extends AppCompatActivity {
                             region_cord_y = eachRegionBinJSONObject.getDouble("region_cord_y");
                             region_weight = eachRegionBinJSONObject.getInt("region_weight");
                             region_isSafe = eachRegionBinJSONObject.getString("region_isSafe");
-                            myDB.insertRegionBins(region_name,region_cord_x,region_cord_y,region_weight,
+                            myDB.insertRegionBins(region_name,region_cord_x,region_cord_y,
+                                    region_weight,
                                     region_isSafe);
                         }
                         myDB.close();

@@ -169,7 +169,8 @@ public class ReportActivity extends AppCompatActivity {
     }
 
     /* method:updatePlaceLabel
-     * purpose:Reporting the bike the theft.when user click on report button.It get all the data from
+     * purpose:Reporting the bike the theft.when user click on report button.It get all the
+     * data from
      * the server.If any error occurs reports will be failed
      *
      */
@@ -194,9 +195,7 @@ public class ReportActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             public void run() {
                 try {
-                    ServerCommunication serverCommunication=new ServerCommunication(context);
-                    URL url=new URL(serverCommunication.url);
-                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                    HttpURLConnection connection=new Connection().connect();
                     Log.d("Connected to URL", connection.toString());
                     TextView lost_location = (TextView) findViewById(R.id.lost_location);
                     TextView lost_time_date = (TextView) findViewById(R.id.lost_time_date);
@@ -218,7 +217,8 @@ public class ReportActivity extends AppCompatActivity {
                     DataOutputStream out = new DataOutputStream(connection.getOutputStream());
                     out.writeBytes("page=report&report_details=" + jsonObj.toString());
                     out.close();
-                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    BufferedReader in = new BufferedReader(new InputStreamReader(connection
+                            .getInputStream()));
                     StringBuilder sb=new StringBuilder();
                     String returnString;
                     while ((returnString = in.readLine()) != null) {

@@ -37,7 +37,8 @@ public class RegistrationActivity extends AppCompatActivity {
         });
     }
     /* method:continueToPersonal
-     * purpose:checking the Email and password are filled.If it is filled the user can continue the personal details
+     * purpose:checking the Email and password are filled.If it is filled the user can continue
+     * the personal details
      *
      */
 
@@ -68,7 +69,8 @@ public class RegistrationActivity extends AppCompatActivity {
      */
 
     public void onContinueFailed() {
-        Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), "Correct the  errors to continue!", Toast.LENGTH_LONG)
+                .show();
         continueRegistration.setEnabled(true);
     }
 
@@ -89,7 +91,8 @@ public class RegistrationActivity extends AppCompatActivity {
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            inputPassword.setError("Atleast 4 characters should be there and it contain alphanumeric characters");
+            inputPassword.setError("Atleast 4 characters should be there and it " +
+                    "contain alphanumeric characters");
             valid = false;
         } else {
             inputPassword.setError(null);

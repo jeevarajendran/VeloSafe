@@ -100,7 +100,8 @@ public class DBHandler extends SQLiteOpenHelper {
      */
 
     public boolean insertRegionBins  (String region_name, Double region_cord_x,
-                                      Double region_cord_y, int region_weight, String region_isSafe) {
+                                      Double region_cord_y, int region_weight, String region_isSafe)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(RegionContract.RegionBinInfo.REGION_NAME, region_name);

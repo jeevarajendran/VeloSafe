@@ -46,7 +46,8 @@ public class BikeDetailsPopupActivity extends AppCompatActivity {
         bikeEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bikeEditIntent = new Intent(BikeDetailsPopupActivity.this, EditBikePopActivity.class);
+                Intent bikeEditIntent = new Intent(BikeDetailsPopupActivity.this,
+                        EditBikePopActivity.class);
                 bikeEditIntent.putExtra("bike_make", bike_make);
                 bikeEditIntent.putExtra("bike_model", bike_model);
                 bikeEditIntent.putExtra("bike_frame", bike_frame);

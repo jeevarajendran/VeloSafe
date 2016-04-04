@@ -71,7 +71,8 @@ public class EditPersonalPopActivity extends AppCompatActivity {
                 String editedtArea = editArea.getText().toString();
                 myDB = new DBHandler(context);
                 System.out.println("CONNECTED to SQLITE:" + myDB);
-                System.out.println("Updated"+myDB.updateUserData(editedFirstName, editedLastName, editedContactNo, editedtArea));
+                System.out.println("Updated"+myDB.updateUserData(editedFirstName, editedLastName,
+                        editedContactNo, editedtArea));
                 Toast.makeText(getBaseContext(), "Saved", Toast.LENGTH_LONG).show();
                 finish();
             }

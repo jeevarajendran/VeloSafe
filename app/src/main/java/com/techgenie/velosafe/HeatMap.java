@@ -24,6 +24,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 
+/*
+    Class HeatMap
+    Purpose:
+    This class generates map from google server, put markers, add colors to the regions and
+    contact server to get the region bins
+ */
+
 public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
@@ -52,10 +59,12 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_heat_map);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
         initializeObjects();
 
-        //progress.show();
+        /*
+        Method launchButton.setOnClickListener
+        invokes map generation
+         */
         launchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -65,12 +74,13 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
                 heatMapDB = new HeatMapDB(HeatMap.this);
                 heatMapDB.truncate();
                 generateMap();
-               /* if (progress.isShowing()) {
-                    progress.dismiss();
-                }*/
-
             }
         });
+
+        /*
+        Method findsafePlacesButton.setOnClickListener
+        invokes safePlacesActivity
+         */
 
         findSafePlacesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -78,22 +88,31 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
                 spinner.setVisibility(View.GONE);
                 googleServer=new GoogleServer(HeatMap.this);
                 Intent safePlacesActivity = new Intent(HeatMap.this,SafePlacesList.class);
-                safePlacesActivity.putExtra("ListJson",heatMapDB.getAll(currentLocation).toString());
+                safePlacesActivity.putExtra("ListJson", heatMapDB.getAll(currentLocation)
+                        .toString());
                 startActivity(safePlacesActivity);
-
-                Log.d("adsasd", "clicked");
             }
         });
 
+        /*
+        Method spotMe.setOnClickListener
+        focuses on the current location
+         */
+
         spotMe.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(15).build();
+                CameraPosition cameraPosition =
+                        new CameraPosition.Builder().target(currentLocation).zoom(15).build();
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         });
 
     }
 
+        /*
+        Method initializeObjects
+        initialize all the views
+         */
 
     public void initializeObjects()
     {
@@ -109,23 +128,38 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
 
     }
 
+    /*
+    Method zoomLocation
+    zoom in map to current location
+     */
     public void zoomLocation(LatLng location)
     {
-        CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(15).build();
+        CameraPosition cameraPosition = new CameraPosition.Builder().target(location).zoom(15)
+                .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
+
+    /*
+    Method generateMap
+    generates map, get region bins and plot markers on it
+ */
+
     public void generateMap() {
         if (gpsTracker.canGetLocation()) {
             double latitude = gpsTracker.getLatitude();
             double longitude = gpsTracker.getLongitude();
             currentLocation = new LatLng(latitude, longitude);
             locationFromSafePlaces=new LatLng(currentLocation.latitude,currentLocation.longitude);
-            c = new MarkerOptions().position(currentLocation).title("You are here!").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            c = new MarkerOptions().position(currentLocation).title("You are here!")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             mMap.addMarker(c);
-            CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation).zoom(11).build();
+            CameraPosition cameraPosition = new CameraPosition.Builder().target(currentLocation)
+                    .zoom(11).build();
             mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
             ServerCommunication communication = new ServerCommunication(HeatMap.this);
             jsonArray = communication.ContactServer();
+            progress.dismiss();
             PlotMarkers(jsonArray);
         }
 
@@ -134,7 +168,10 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-
+    /*
+        Method PlotMarkers
+        creates markers and region colors around it
+     */
 
     public void PlotMarkers(JSONArray jsonArray) {
         final String RED = "RED";
@@ -150,11 +187,14 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
                 switch (jsonObject.getString("region_isSafe")) {
                     case RED:
                         mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .position(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .title(jsonObject.getString("region_name"))
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.parking_red)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable
+                                        .parking_red)));
                         mMap.addCircle(new CircleOptions()
-                                .center(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .center(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .radius(1000)
                                 .fillColor(0x20ff0000)
                                 .strokeColor(Color.RED)
@@ -164,46 +204,60 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
                         break;
                     case GREEN:
                         mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .position(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .title(jsonObject.getString("region_name"))
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.parking_green)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable
+                                        .parking_green)));
 
                         mMap.addCircle(new CircleOptions()
-                                .center(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .center(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .radius(1000)
                                 .fillColor(0x2000ff00)
                                 .strokeColor(Color.GREEN)
                                 .strokeWidth(5));
-                        heatMapDB.insertRecord(jsonObject.getString("region_name"), String.valueOf(jsonObject.getDouble("region_cord_x")), String.valueOf(jsonObject.getDouble("region_cord_y")), jsonObject.getString("region_isSafe"),currentLocation);
+                        heatMapDB.insertRecord(jsonObject.getString("region_name"),
+                                String.valueOf(jsonObject.getDouble("region_cord_x")),
+                                String.valueOf(jsonObject.getDouble("region_cord_y")),
+                                jsonObject.getString("region_isSafe"),currentLocation);
 
 
                         break;
                     case ORANGE:
                         mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .position(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .title(jsonObject.getString("region_name"))
-                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.parking_yellow)));
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable
+                                        .parking_yellow)));
                         mMap.addCircle(new CircleOptions()
-                                .center(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .center(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .radius(1000)
                                 .fillColor(0x40ffff00)
                                 .strokeColor(Color.YELLOW)
                                 .strokeWidth(5));
-                        heatMapDB.insertRecord(jsonObject.getString("region_name"), String.valueOf(jsonObject.getDouble("region_cord_x")), String.valueOf(jsonObject.getDouble("region_cord_y")), jsonObject.getString("region_isSafe"),currentLocation);
+                        heatMapDB.insertRecord(jsonObject.getString("region_name"),
+                                String.valueOf(jsonObject.getDouble("region_cord_x")),
+                                String.valueOf(jsonObject.getDouble("region_cord_y")),
+                                jsonObject.getString("region_isSafe"),currentLocation);
 
 
                         break;
 
                     default:
                         mMap.addMarker(new MarkerOptions()
-                                .position(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .position(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .title(jsonObject.getString("region_name"))
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory
+                                        .HUE_RED)));
                         mMap.addCircle(new CircleOptions()
-                                .center(new LatLng(jsonObject.getDouble("region_cord_x"), jsonObject.getDouble("region_cord_y")))
+                                .center(new LatLng(jsonObject.getDouble("region_cord_x"),
+                                        jsonObject.getDouble("region_cord_y")))
                                 .radius(1000)
                                 .fillColor(Color.RED));
-
                         break;
 
                 }
@@ -214,7 +268,10 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-
+    /*
+    Method updatePosition
+    get current location from gpsTracker and adds marker on that location
+     */
     public void updatePosition()
     {
 
@@ -223,7 +280,8 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
             double latitude = gpsTracker.getLatitude();
             double longitude = gpsTracker.getLongitude();
             currentLocation=new LatLng(latitude,longitude);
-            c=new MarkerOptions().position(currentLocation).title("You are here!").icon(BitmapDescriptorFactory.fromResource(R.drawable.cycling));
+            c=new MarkerOptions().position(currentLocation).title("You are here!")
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.cycling));
             mMap.addMarker(c);
 
         }else{
@@ -231,12 +289,20 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
+    /*
+        Method: killApp
+        kills the application
+     */
     public void killApp()
     {
         android.os.Process.killProcess(android.os.Process.myPid());
     }
 
-
+        /*
+        Method onMapReady
+        Map initializer
+         adds flag to keep screen on
+         */
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -244,12 +310,16 @@ public class HeatMap extends FragmentActivity implements OnMapReadyCallback {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
-
+        /*
+        Method onResume
+        defines what to do when application comes to foreground from the background
+         */
 
     protected void onResume() {
         super.onResume();
 
     }
+
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);

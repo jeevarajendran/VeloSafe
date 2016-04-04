@@ -105,8 +105,7 @@ public class BikeDetailsActivity extends AppCompatActivity {
             public void run() {
                 try{
                     String returnString="";
-                    URL url = new URL("http://10.6.62.30:8080/MainHandler/ServerHandler/MainHandler");
-                    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+                    HttpURLConnection connection=new Connection().connect();
                     Log.d("Connected to URL", connection.toString());
                     String inputEmail = inputIntent.getExtras().getString("inputEmail","");
                     String inputPassword = inputIntent.getExtras().getString("inputPassword","");
@@ -149,7 +148,9 @@ public class BikeDetailsActivity extends AppCompatActivity {
                         System.out.println("it is registered");
                         BikeDetailsActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                Toast.makeText(getBaseContext(), "The email address has already been registered", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),
+                                        "The email address has already been registered",
+                                        Toast.LENGTH_LONG).show();
                             }
                         });
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -189,9 +190,6 @@ public class BikeDetailsActivity extends AppCompatActivity {
                         System.out.println(name);
                     }
                     myDB.close();
-                    Intent intent = new Intent(getApplicationContext(), ImageTestActivity.class);
-                    startActivityForResult(intent, REQUEST_BIKE);
-
                 }catch(Exception e)
                 {
                     Log.d("Exception", e.toString());
